@@ -151,7 +151,7 @@ namespace Genlib.Logging
         public event EventHandler<OnWriteEventArgs> OnWrite;
 
         /// <summary>
-        /// Appends a line onto the log.
+        /// Formats and appends a line onto the log.
         /// </summary>
         /// <param name="line">The line to write.</param>
         /// <param name="level">The level to write it at (purely for formatting purposes, as deciding whether to actually log based on current level is done earlier).</param>
