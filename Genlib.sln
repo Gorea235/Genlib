@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.25928.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenlibOld", "GenlibOld\GenlibOld.csproj", "{0AD1D4F9-4B83-4013-B4B5-7C7C205711CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenlibWin", "GenlibWin\GenlibWin.csproj", "{0AD1D4F9-4B83-4013-B4B5-7C7C205711CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{74D9B91B-24B0-4AD5-84FF-F9C8014632AB}"
 	ProjectSection(ProjectDependencies) = postProject

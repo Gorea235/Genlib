@@ -96,9 +96,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GenlibOld\GenlibOld.csproj">
+    <ProjectReference Include="..\GenlibWin\GenlibWin.csproj">
       <Project>{0ad1d4f9-4b83-4013-b4b5-7c7c205711ce}</Project>
-      <Name>GenlibOld</Name>
+      <Name>GenlibWin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
