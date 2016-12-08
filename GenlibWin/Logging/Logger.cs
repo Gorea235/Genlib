@@ -19,9 +19,10 @@ namespace Genlib.Logging
         /// </summary>
         private Queue<string> WriteQueue = new Queue<string>();
 
-        private bool autoFlush = false;
+        private bool autoFlush = true;
         /// <summary>
         /// Whether to flush the log on every writeline.
+        /// (Defaults to true)
         /// </summary>
         public bool AutoFlush
         {

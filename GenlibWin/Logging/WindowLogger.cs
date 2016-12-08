@@ -62,6 +62,17 @@ namespace Genlib.Logging
         /// Whether to call Application.DoEvents on a Flush
         /// </summary>
         public bool DoEventsOnFlush { get; set; } = false;
+        private bool showCommandInput = false;
+        /// <summary>
+        /// Whether to show the command input textbox.
+        /// </summary>
+        public bool ShowCommandInput { get { return showCommandInput; } set { showCommandInput = value; ShowCommandInputChanged?.Invoke(this, value); } }
+        private event EventHandler<bool> ShowCommandInputChanged;
+
+        /// <summary>
+        /// Raised when a command is sent.
+        /// </summary>
+        public event EventHandler<string> CommandSent;
 
         /// <summary>
         /// Creates a new WindowLogger.
@@ -71,7 +82,18 @@ namespace Genlib.Logging
             Form = new WindowLoggerForm();
             OnFlush += WindowLogger_OnFlush;
             Form.FormClosing += Form_FormClosing;
+            Form.TxtCmd.PreviewKeyDown += TxtCmd_PreviewKeyDown;
+            ShowCommandInputChanged += WindowLogger_ShowCommandInputChanged;
+            ShowCommandInput = false;
             Show();
+        }
+
+        private void WindowLogger_ShowCommandInputChanged(object sender, bool e)
+        {
+            if (e)
+                Form.TxtCmd.Dock = DockStyle.Bottom;
+            else
+                Form.TxtCmd.Dock = DockStyle.None;
         }
 
         private void Form_FormClosing(object sender, FormClosingEventArgs e)
@@ -80,13 +102,23 @@ namespace Genlib.Logging
             Hide();
         }
 
+        private void TxtCmd_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (Form.TxtCmd.Text != "")
+                    CommandSent?.Invoke(this, Form.TxtCmd.Text);
+                Form.TxtCmd.Text = "";
+            }
+        }
+
         private delegate void ProcessFlushDelegate(string fullstring);
         private void WindowLogger_OnFlush(object sender, OnFlushEventArgs e) { Form.Invoke(new ProcessFlushDelegate(ProcessFlush), e.FullString); }
         private void ProcessFlush(string fullstring)
         {
-            Form.rtbx_log.AppendText(fullstring);
-            Form.rtbx_log.SelectionStart = Form.rtbx_log.TextLength;
-            Form.rtbx_log.ScrollToCaret();
+            Form.RtbxLog.AppendText(fullstring);
+            Form.RtbxLog.SelectionStart = Form.RtbxLog.TextLength;
+            Form.RtbxLog.ScrollToCaret();
             if (DoEventsOnFlush)
                 Application.DoEvents();
         }
