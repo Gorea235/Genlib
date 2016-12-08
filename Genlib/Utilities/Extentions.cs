@@ -53,6 +53,7 @@ namespace Genlib.Utilities
             return dict;
         }
 
+#if !NET_CORE
         /// <summary>
         /// Gets the description of the enum.
         /// </summary>
@@ -61,7 +62,12 @@ namespace Genlib.Utilities
         /// <returns>The description of the enum, or, if it fails, the ToString value of it.</returns>
         public static string GetDescription<T>(this T en) where T : struct
         {
+#if NET_CORE
+            Type ty = typeof(T);
+            TypeInfo t = ty.GetTypeInfo();
+#else
             Type t = typeof(T);
+#endif
             if (!t.IsEnum)
                 throw new ArgumentNullException("Value must be an Enum.");
             MemberInfo[] mInfo = t.GetMember(en.ToString());
@@ -78,5 +84,6 @@ namespace Genlib.Utilities
             }
             return en.ToString();
         }
+#endif
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NET_CORE
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,3 +37,4 @@ namespace Genlib.Utilities
         }
     }
 }
+#endif

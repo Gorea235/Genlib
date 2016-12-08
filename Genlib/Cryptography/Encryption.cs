@@ -13,6 +13,7 @@ namespace Genlib.Cryptography
     /// </summary>
     public class Encryption
     {
+        /* old SymmetricInternal that uses .NET Framework -only code
         private const int DefaultBlockSize = 256;
         private const CipherMode DefaultCipherMode = CipherMode.CBC;
         private const PaddingMode DefaultPaddingMode = PaddingMode.ISO10126;
@@ -71,6 +72,51 @@ namespace Genlib.Cryptography
                 }
             }
         }
+        */
+
+        private static byte[] SymmetricInternal(byte[] bytes, byte[] key, byte[] iv, bool encrypt)
+        {
+            byte[] transformed;
+            using (Aes aesObj = Aes.Create())
+            {
+                aesObj.Key = key;
+                aesObj.IV = iv;
+                aesObj.Padding = PaddingMode.PKCS7;
+                //aesObj.Mode = CipherMode.CBC;
+
+                ICryptoTransform transformer;
+
+                if (encrypt)
+                {
+                    transformer = aesObj.CreateEncryptor(aesObj.Key, aesObj.IV);
+                    using (MemoryStream msTransform = new MemoryStream())
+                    {
+                        using (CryptoStream csEncrypt = new CryptoStream(msTransform, transformer, CryptoStreamMode.Write))
+                        {
+                            csEncrypt.Write(bytes, 0, bytes.Length);
+                            csEncrypt.FlushFinalBlock();
+                            transformed = msTransform.ToArray();
+                        }
+                    }
+                }
+                else
+                {
+                    transformer = aesObj.CreateDecryptor(aesObj.Key, aesObj.IV);
+                    using (MemoryStream msTransform = new MemoryStream(bytes))
+                    {
+                        using (CryptoStream csDecrypt = new CryptoStream(msTransform, transformer, CryptoStreamMode.Read))
+                        {
+                            using (MemoryStream tmpStream = new MemoryStream())
+                            {
+                                csDecrypt.CopyTo(tmpStream);
+                                transformed = tmpStream.ToArray();
+                            }
+                        }
+                    }
+                }
+            }
+            return transformed;
+        }
 
         /// <summary>
         /// Encrypts a bytearray using the specified key and IV.
@@ -81,7 +127,8 @@ namespace Genlib.Cryptography
         /// <returns>Encrypted bytearray.</returns>
         public static byte[] Encrypt(byte[] bytes, byte[] key, byte[] iv)
         {
-            return SymmetricInternal(bytes, key, iv, true, DefaultBlockSize, DefaultCipherMode, DefaultPaddingMode);
+            //return SymmetricInternal(bytes, key, iv, true, DefaultBlockSize, DefaultCipherMode, DefaultPaddingMode);
+            return SymmetricInternal(bytes, key, iv, true);
         }
 
         /// <summary>
@@ -106,7 +153,8 @@ namespace Genlib.Cryptography
         /// <returns></returns>
         public static byte[] Decrypt(byte[] bytes, byte[] key, byte[] iv)
         {
-            return SymmetricInternal(bytes, key, iv, false, DefaultBlockSize, DefaultCipherMode, DefaultPaddingMode);
+            //return SymmetricInternal(bytes, key, iv, false, DefaultBlockSize, DefaultCipherMode, DefaultPaddingMode);
+            return SymmetricInternal(bytes, key, iv, false);
         }
 
         /// <summary>

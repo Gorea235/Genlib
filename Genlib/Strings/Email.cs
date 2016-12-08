@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if DEBUG && !NET_CORE
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,6 @@ namespace Genlib.Utilities
     /// </summary>
     public static class Email
     {
-
-#if DEBUG
         /// <summary>
         /// Code taken from the vs100 MSDN page detailing how to verify emails (for test purposes)
         /// </summary>
@@ -108,6 +107,6 @@ namespace Genlib.Utilities
                 return false;
             }
         }
-#endif
     }
 }
+#endif

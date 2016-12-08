@@ -49,15 +49,15 @@ namespace Genlib.Cryptography
         {
             System.Security.Cryptography.HashAlgorithm hashAlg;
             if (alg == HashAlgorithm.MD5)
-                hashAlg = new MD5CryptoServiceProvider();
+                hashAlg = MD5.Create();
             else if (alg == HashAlgorithm.SHA1)
-                hashAlg = new SHA1CryptoServiceProvider();
+                hashAlg = SHA1.Create();
             else if (alg == HashAlgorithm.SHA256)
-                hashAlg = new SHA256CryptoServiceProvider();
+                hashAlg = SHA256.Create();
             else if (alg == HashAlgorithm.SHA384)
-                hashAlg = new SHA384CryptoServiceProvider();
+                hashAlg = SHA384.Create();
             else if (alg == HashAlgorithm.SHA512)
-                hashAlg = new SHA512CryptoServiceProvider();
+                hashAlg = SHA512.Create();
             else
                 throw new ArgumentOutOfRangeException(@"Whoops ¯\_(ツ)_/¯");
             return hashAlg.ComputeHash(bytes);

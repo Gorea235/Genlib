@@ -1,91 +1,38 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+  <PropertyGroup Label="Configuration">
+    <DefineConstants>TRACE;DEBUG;NET_CORE</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0AD1D4F9-4B83-4013-B4B5-7C7C205711CE}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Genlib</RootNamespace>
-    <AssemblyName>Genlib</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Genlib.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Genlib.xml</DocumentationFile>
+    <TargetFramework>netstandard1.4</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
+    <Compile Include="**\*.cs" />
+    <EmbeddedResource Include="**\*.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cryptography\Encryption.cs" />
-    <Compile Include="Cryptography\Hashing.cs" />
-    <Compile Include="Logging\EventedTraceSwitch.cs" />
-    <Compile Include="Logging\DebugLogger.cs" />
-    <Compile Include="Logging\FileLogger.cs" />
-    <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Logging\LoggerWrapper.cs" />
-    <Compile Include="Logging\WindowLogger.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Logging\WindowLogger.Designer.cs">
-      <DependentUpon>WindowLogger.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Strings\Sanitation.cs" />
-    <Compile Include="Utilities\ColorEx.cs" />
-    <Compile Include="Strings\Email.cs" />
-    <Compile Include="Utilities\DateTimeEx.cs" />
-    <Compile Include="Utilities\EnhancedEnum.cs" />
-    <Compile Include="Utilities\Extentions.cs" />
-    <Compile Include="Utilities\MathEx.cs" />
-    <Compile Include="Utilities\UpdatedPropertyEventArgs.cs" />
-    <Compile Include="WpfEx\NumericTextBox.cs" />
+    <Compile Remove="..\GenlibOld\Cryptography\Encryption.cs" />
+    <Compile Remove="..\GenlibOld\Cryptography\Hashing.cs" />
+    <Compile Remove="..\GenlibOld\Strings\Email.cs" />
+    <Compile Remove="..\GenlibOld\Strings\Sanitation.cs" />
+    <Compile Remove="..\GenlibOld\Strings\Validation.cs" />
+    <Compile Remove="..\GenlibOld\Utilities\ColorEx.cs" />
+    <Compile Remove="..\GenlibOld\Utilities\DateTimeEx.cs" />
+    <Compile Remove="..\GenlibOld\Utilities\EnhancedEnum.cs" />
+    <Compile Remove="..\GenlibOld\Utilities\Extentions.cs" />
+    <Compile Remove="..\GenlibOld\Utilities\MathEx.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Logging\WindowLogger.resx">
-      <DependentUpon>WindowLogger.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Remove="..\GenlibOld\Utilities\UpdatedPropertyEventArgs.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="NETStandard.Library">
+      <Version>1.6</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Sdk">
+      <Version>1.0.0-alpha-20161104-2</Version>
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

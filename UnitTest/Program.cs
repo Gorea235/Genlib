@@ -59,7 +59,8 @@ namespace UnitTest
             Changed?.Invoke(this, new UpdatedPropertyEventArgs<KeyValuePair<string, string>?>(null, new KeyValuePair<string, string>(key + "add", value)));
         }
     }
-    public enum TestEnum {
+    public enum TestEnum
+    {
         lol = 1,
         bla = 3,
         foo = 5,
@@ -138,7 +139,7 @@ namespace UnitTest
             logwrap.Flush();
 
             Console.WriteLine(Encoding.Unicode.GetString(new byte[] { 76, 56, 78 }));
-            string teststr = "i'm a cool testing <string>. I do lots* of %cool th`ings £££\"(money money) ^^ ~~ \\/ look ma & pa'/=a";
+            string teststr = "i'm a cool testing <string>. I do lots* of %cool th`ings £££\"(money money) ^^ ~~ \\/ look ma&pa'/=annnnn";
             string teststrXML = Sanitation.Sanitise(teststr, Sanitation.SanitationType.XML);
             string teststrURL = Sanitation.Sanitise(teststr, Sanitation.SanitationType.URL);
             Console.WriteLine(teststr);
@@ -150,18 +151,28 @@ namespace UnitTest
             Console.WriteLine(Sanitation.Desanitise("https://www.draw.io/?state=%7B%22ids%22:%5B%220B4pWasivaq5IZVY3NGxBdFNSVmM%22%5D,%22action%22:%22open%22,%22userId%22:%22105112610015834738502%22%7D#G0B4pWasivaq5IZVY3NGxBdFNSVmM", Sanitation.SanitationType.URL));
 
             Console.WriteLine(new object[] { 23, 43, 12, 42, 76, 34, 87, "hello", 'f' }.ToArrayString());
+            /*
             RijndaelManaged rManaged = new RijndaelManaged();
             rManaged.BlockSize = 256;
             rManaged.GenerateKey();
             rManaged.GenerateIV();
             key = rManaged.Key;
             iv = rManaged.IV;
-            Console.WriteLine("key: " + key.ToArrayString());
-            Console.WriteLine("iv:  " + iv.ToArrayString());
-            string encstr = Encryption.Encrypt(teststr, key, iv);
-            Console.WriteLine(encstr);
-            Console.WriteLine(Encryption.Decrypt(encstr, key, iv));
-            Console.WriteLine(Hashing.Hash(teststr, Hashing.HashAlgorithm.SHA256));
+            */
+            using (Aes lolAes = Aes.Create())
+            {
+                key = lolAes.Key;
+                iv = lolAes.IV;
+                Console.WriteLine("key: " + key.ToArrayString());
+                Console.WriteLine("key length: " + key.Length.ToString());
+                Console.WriteLine("iv:  " + iv.ToArrayString());
+                Console.WriteLine("iv length: " + iv.Length.ToString());
+                Console.WriteLine(teststr);
+                string encstr = Encryption.Encrypt(teststr, key, iv);
+                Console.WriteLine(encstr);
+                Console.WriteLine(Encryption.Decrypt(encstr, key, iv));
+                Console.WriteLine(Hashing.Hash(teststr, Hashing.HashAlgorithm.SHA256));
+            }
 
             string[] emails = {
                 "john@example.com", "j.bob@example.com", "j.bob.blob@example.com", ".jblob@exmaple.com", "j..k@example.com",
