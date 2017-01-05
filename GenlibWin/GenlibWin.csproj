@@ -53,6 +53,12 @@
     <Compile Include="..\Genlib\Cryptography\Hashing.cs">
       <Link>Cryptography\Hashing.cs</Link>
     </Compile>
+    <Compile Include="..\Genlib\Serialization\DictionaryItem.cs">
+      <Link>Serialization\DictionaryItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Genlib\Serialization\SerializableDictionary.cs">
+      <Link>Serialization\SerializableDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\Genlib\Strings\Email.cs">
       <Link>Strings\Email.cs</Link>
     </Compile>
@@ -81,10 +87,11 @@
       <Link>Utilities\UpdatedPropertyEventArgs.cs</Link>
     </Compile>
     <Compile Include="Logging\DebugLogger.cs" />
-    <Compile Include="Logging\EventedTraceSwitch.cs" />
+    <Compile Include="Logging\TraceSwitch.cs" />
     <Compile Include="Logging\FileLogger.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LoggerWrapper.cs" />
+    <Compile Include="Logging\TraceLevel.cs" />
     <Compile Include="Logging\WindowLogger.cs">
       <SubType>Form</SubType>
     </Compile>

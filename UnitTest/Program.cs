@@ -104,38 +104,33 @@ namespace UnitTest
             logger.Prefix = "Test log [{0:yyyy-MM-dd}] [{0:HH:mm:ss}] [level: {1}] ";
             logger.AutoFlush = true;
             logger.WriteInfo("lol");
-            logger.LogSwitch.Level = System.Diagnostics.TraceLevel.Error;
+            logger.Switch.Level = TraceLevel.Error;
+            logger.Switch.TraceLevelStrings[TraceLevel.Error] = "fail";
+            logger.WriteError("test err");
             WindowLogger winlog = new WindowLogger();
             winlog.DoEventsOnFlush = true;
             winlog.AutoFlush = true;
             winlog.Prefix = "[{1}] windows omg : ";
-            winlog.LogSwitch.Level = System.Diagnostics.TraceLevel.Info;
+            winlog.Switch.Level = TraceLevel.Info;
             winlog.Height = 500;
             DebugLogger dlog = new DebugLogger();
             dlog.AutoFlush = true;
             dlog.Prefix = "[{1}] lol it's the debug: ";
+            dlog.Switch.TraceLevelStrings[TraceLevel.Error] = "fail";
             LoggerWrapper logwrap = new LoggerWrapper(new KeyValuePair<string, Logger>("file", logger), new KeyValuePair<string, Logger>("window", winlog),
                 new KeyValuePair<string, Logger>("debug", dlog));
-            logwrap.LogSwitch.Level = System.Diagnostics.TraceLevel.Info;
+            logwrap.Switch.Level = TraceLevel.Info;
             logwrap.PrefixEnabled = false;
             logwrap.AutoFlush = true;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 2; i++)
                 logwrap.WriteInfo("log number {0}", i);
             logwrap.Prefix = "[{1}] das log: ";
             logwrap.PrefixEnabled = true;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 2; i++)
                 logwrap.WriteInfo("logging-a {0} lol", i);
-            logwrap.LogSwitch.Level = System.Diagnostics.TraceLevel.Warning;
-            for (int i = 0; i < 10; i++)
+            logwrap.Switch.Level = TraceLevel.Warning;
+            for (int i = 0; i < 2; i++)
                 logwrap.WriteInfo("logging-b {0} lol", i);
-            logwrap.IndiviualLogSwitches = true;
-            Console.WriteLine("IndividualLogSwitches: {0}", logwrap.IndiviualLogSwitches);
-            for (int i = 0; i < 10; i++)
-                logwrap.WriteInfo("logging-c {0} lol", i);
-            logwrap.LogSwitch.Level = System.Diagnostics.TraceLevel.Warning;
-            Console.WriteLine("set logwrap level to warning");
-            for (int i = 0; i < 10; i++)
-                logwrap.WriteInfo("logging-d {0} lol", i);
             logwrap.Flush();
 
             Console.WriteLine(Encoding.Unicode.GetString(new byte[] { 76, 56, 78 }));
@@ -273,6 +268,9 @@ namespace UnitTest
 
             Random rand = new Random();
             Console.WriteLine("random int: {0}, {1}, {2}, {3}; random double: {4}, {5}, {6}, {7}", rand.Next(), rand.Next(), rand.Next(), rand.Next(), rand.NextDouble(), rand.NextDouble(), rand.NextDouble(), rand.NextDouble());
+
+            Console.WriteLine(tdict.GetType().FullName);
+            Console.WriteLine(typeof(List<>));
 
             Console.WriteLine("-- Done --");
             Console.ReadKey();

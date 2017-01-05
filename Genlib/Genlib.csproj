@@ -1,7 +1,6 @@
-﻿<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup Label="Configuration">
-    <DefineConstants>TRACE;DEBUG;NET_CORE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_4;NET_CORE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
@@ -11,28 +10,7 @@
     <EmbeddedResource Include="**\*.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="..\GenlibOld\Cryptography\Encryption.cs" />
-    <Compile Remove="..\GenlibOld\Cryptography\Hashing.cs" />
-    <Compile Remove="..\GenlibOld\Strings\Email.cs" />
-    <Compile Remove="..\GenlibOld\Strings\Sanitation.cs" />
-    <Compile Remove="..\GenlibOld\Strings\Validation.cs" />
-    <Compile Remove="..\GenlibOld\Utilities\ColorEx.cs" />
-    <Compile Remove="..\GenlibOld\Utilities\DateTimeEx.cs" />
-    <Compile Remove="..\GenlibOld\Utilities\EnhancedEnum.cs" />
-    <Compile Remove="..\GenlibOld\Utilities\Extentions.cs" />
-    <Compile Remove="..\GenlibOld\Utilities\MathEx.cs" />
+    <PackageReference Include="NETStandard.Library" Version="1.6.1" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="..\GenlibOld\Utilities\UpdatedPropertyEventArgs.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NETStandard.Library">
-      <Version>1.6</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NET.Sdk">
-      <Version>1.0.0-alpha-20161104-2</Version>
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

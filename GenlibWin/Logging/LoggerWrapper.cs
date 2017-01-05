@@ -9,17 +9,27 @@ namespace Genlib.Logging
 {
     /// <summary>
     /// Allows for multiple loggers to be managed at once.
+    /// Properties that are set in the class are pushed to
+    /// all current logs, however they are not enforced,
+    /// meaning that if the properties of an individual
+    /// logger are changed, they will be kept and used when
+    /// writing.
     /// </summary>
     public class LoggerWrapper : Logger
     {
+
+        #region properties
+
+        #region public
+
         /// <summary>
         /// The dictionary that contains all the loggers.
         /// </summary>
         public Dictionary<string, Logger> Loggers { get; } = new Dictionary<string, Logger>();
 
         /// <summary>
-        /// The function that formats the WriteException '<code>ex</code>' argument. Defaults to just '<code>ex.Message</code>'.
-        /// This is overwrite the <code>ExceptionFormatter</code> in every the logger.
+        /// The function that formats the WriteException '<c>ex</c>' argument. Defaults to just '<code>ex.Message</code>'.
+        /// This is overwrite the <c>ExceptionFormatter</c> in every the logger.
         /// </summary>
         public new Func<Exception, string, string> ExceptionFormatter
         {
@@ -32,18 +42,11 @@ namespace Genlib.Logging
             }
         }
 
-        private TraceLevel currentLevel;
-        private bool individualLogSwitches = false;
-        /// <summary>
-        /// Whether the log switches of the individual loggers is used to log with.
-        /// If set to true, then the level of the logger upon logging is used, otherwise
-        /// the log level of the LoggerWrapper is used.
-        /// </summary>
-        public bool IndiviualLogSwitches
-        {
-            get { return individualLogSwitches; }
-            set { individualLogSwitches = value; LogSwitch.Level = currentLevel; }
-        }
+        #endregion
+
+        #endregion
+
+        #region constructors
 
         /// <summary>
         /// Constructs a new LoggerWrapper instance.
@@ -55,18 +58,48 @@ namespace Genlib.Logging
                 Loggers.Add(log.Key, log.Value);
             OnWrite += LoggerWrapper_OnWrite;
             OnFlush += LoggerWrapper_OnFlush;
-            LogSwitch.LevelChanged += LogSwitch_LevelChanged;
+
+            AutoFlushChanged += LoggerWrapper_AutoFlushChanged;
+            ExceptionFormatterChanged += LoggerWrapper_ExceptionFormatterChanged;
+            PrefixChanged += LoggerWrapper_PrefixChanged;
+            PrefixEnabledChanged += LoggerWrapper_PrefixEnabledChanged;
+            Switch.LevelChanged += LogSwitch_LevelChanged;
         }
 
-        private void LogSwitch_LevelChanged(TraceLevel newlevel)
+        #endregion
+
+        #region methods
+
+        #region private
+
+        private void LoggerWrapper_AutoFlushChanged(object sender, Utilities.UpdatedPropertyEventArgs<bool> e)
         {
-            currentLevel = newlevel;
-            if (individualLogSwitches)
-            {
-                LogSwitch.LevelChanged -= LogSwitch_LevelChanged;
-                LogSwitch.Level = TraceLevel.Verbose;
-                LogSwitch.LevelChanged += LogSwitch_LevelChanged;
-            }
+            foreach (Logger log in Loggers.Values)
+                log.AutoFlush = e.NewValue;
+        }
+
+        private void LoggerWrapper_ExceptionFormatterChanged(object sender, Utilities.UpdatedPropertyEventArgs<Func<Exception, string, string>> e)
+        {
+            foreach (Logger log in Loggers.Values)
+                log.ExceptionFormatter = e.NewValue;
+        }
+
+        private void LogSwitch_LevelChanged(object sender, Utilities.UpdatedPropertyEventArgs<TraceLevel> e)
+        {
+            foreach (Logger log in Loggers.Values)
+                log.Switch.Level = e.NewValue;
+        }
+
+        private void LoggerWrapper_PrefixChanged(object sender, Utilities.UpdatedPropertyEventArgs<string> e)
+        {
+            foreach (Logger log in Loggers.Values)
+                log.Prefix = e.NewValue;
+        }
+
+        private void LoggerWrapper_PrefixEnabledChanged(object sender, Utilities.UpdatedPropertyEventArgs<bool> e)
+        {
+            foreach (Logger log in Loggers.Values)
+                log.PrefixEnabled = e.NewValue;
         }
 
         private void LoggerWrapper_OnFlush(object sender, OnFlushEventArgs e)
@@ -78,8 +111,12 @@ namespace Genlib.Logging
         private void LoggerWrapper_OnWrite(object sender, OnWriteEventArgs e)
         {
             foreach (Logger log in Loggers.Values)
-                log.AppendLine(e.Written, e.Level, false, !PrefixEnabled, IndiviualLogSwitches ? log.LogSwitch.Level : LogSwitch.Level);
+                log.AppendLine(e.Written, e.Level);
         }
+
+        #endregion
+
+        #region public
 
         /// <summary>
         /// Closes the logger
@@ -98,5 +135,10 @@ namespace Genlib.Logging
             foreach (Logger log in Loggers.Values)
                 log.Dispose();
         }
+
+        #endregion
+
+        #endregion
+
     }
 }
