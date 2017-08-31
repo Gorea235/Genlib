@@ -11,7 +11,7 @@ namespace Genlib.Serialization
     /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
     [XmlRoot("Dictionary")]
-#if !NET_CORE
+#if !NETCOREAPP1_1
     [Serializable]
 #endif
     public class SerializableDictionary<TKey, TValue>

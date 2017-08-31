@@ -23,9 +23,9 @@ namespace Genlib.Utilities
             string ret = "{";
             foreach (object o in enu)
             {
-                if (o.GetType() == typeof(string))
+                if (o is string)
                     ret += "\"" + o + "\", ";
-                else if (o.GetType() == typeof(char))
+                else if (o is char)
                     ret += "'" + o.ToString() + "', ";
                 else if ((o as System.Collections.IEnumerable) != null)
                     ret += ToArrayString((System.Collections.IEnumerable)o) + ", ";
@@ -53,7 +53,7 @@ namespace Genlib.Utilities
             return dict;
         }
 
-#if !NET_CORE
+#if !NETCOREAPP1_1
         /// <summary>
         /// Gets the description of the enum.
         /// </summary>
@@ -62,7 +62,7 @@ namespace Genlib.Utilities
         /// <returns>The description of the enum, or, if it fails, the ToString value of it.</returns>
         public static string GetDescription<T>(this T en) where T : struct
         {
-#if NET_CORE
+#if NETCOREAPP1_1
             Type ty = typeof(T);
             TypeInfo t = ty.GetTypeInfo();
 #else

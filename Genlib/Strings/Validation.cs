@@ -448,7 +448,7 @@ $
         /// Checks if the given string is a valid URI string.
         /// </summary>
         /// <param name="uri">The string to validate.</param>
-        /// <param name="useRegex">Whether to use a regex pattern to match the URI. (False uses the .NET Framework 'Uri.IsWellFormedUriString')</param>
+        /// <param name="useRegex">Whether to use a regex pattern to match the URI. (False uses the .NET Standard 'Uri.IsWellFormedUriString')</param>
         /// <returns>Whether the string was a valid URI</returns>
         /// <remarks>The regex used for the optional matching is derived exactly from the RFC 3986 definition. (So far little testing has been done to make sure that it fully works, however it compiles and checks properly without errors)</remarks>
         public static bool IsValidUri(string uri, bool useRegex = false)

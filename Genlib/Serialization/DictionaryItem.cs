@@ -9,7 +9,7 @@ namespace Genlib.Serialization
     /// </summary>
     /// <typeparam name="TKey">The type of the key.</typeparam>
     /// <typeparam name="TValue">The type of the value.</typeparam>
-#if !NET_CORE
+#if !NETCOREAPP1_1
     [Serializable]
 #endif
     public struct DictionaryItem<TKey, TValue>

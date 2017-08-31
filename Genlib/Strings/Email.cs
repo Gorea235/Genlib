@@ -1,4 +1,4 @@
-﻿#if DEBUG && !NET_CORE
+﻿#if DEBUG && !NETCOREAPP1_1
 using System;
 using System.Collections.Generic;
 using System.Linq;
